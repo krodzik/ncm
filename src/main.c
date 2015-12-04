@@ -1,17 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "read_configure_file.h"
+#include "read_config.h"
+#include "AcceptorEH.h"
 
 int main(int argc, char **argv)
 {
-	/* Pobranie konfiguracji z pliku "config.cfg" i wypisanie pobranych parametrow */
+	// Read arguments from "config.cfg" file and printing them
 	int port;
 	int max_clients;
 	if(get_config(&port, &max_clients))
 		return(-1);
-	
-	printf("Z pliku konfiguracyjnego:\nport : %d \t\tmax_clients : %d \n", port, max_clients);
+
+	printf("From configuration file:\nport number : %d \t\tmax clients number : %d \n", port, max_clients);
+
+    // tutaj część właściwa
+    EpollReactor* reactor = new_EpollReactor();
+    // do skończenia
 
 	return 0;
 }
