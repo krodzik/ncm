@@ -3,7 +3,7 @@ CC=gcc
 #Name of generated server executable
 NAME=server
 
-#Flags for compiler
+#Flags for compiler // -I../include
 CFLAGS = -Wall -g -I../include
 LDFLAGS =-lconfig
 
