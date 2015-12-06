@@ -1,5 +1,0 @@
-Gdyby wyskakiwal brak libconfig.so
-1:
-	sudo ldconfig -v
-2:
-	export LD_LIBRARY_PATH=/usr/local/lib
