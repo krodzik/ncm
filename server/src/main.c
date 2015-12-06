@@ -25,22 +25,18 @@ int main(int argc, const char *argv[])
 	if(get_config(&port, &max_clients))
 		return(-1);
 
-	//printf("From configuration file:\nport number : %d \t\tmax clients number : %d \n", port, max_clients);
-
 	// Main
 	int srv_fd = -1;
 	int epoll_fd = -1;
 
-	//user_list* ul = 0;
 	reactor* r = 0;
 	event_handler* seh = 0;
 
 	if (init_server(&srv_fd, &epoll_fd, port) != 0)
 		return 1;
 
-	//ul = create_user_list();
 	r  = create_reactor(epoll_fd);
-	seh = create_acceptor(srv_fd, r);//, ul);
+	seh = create_acceptor(srv_fd, r);
 	r->add_eh(r, seh);
 
 	r->event_loop(r);
