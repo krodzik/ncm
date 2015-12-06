@@ -4,6 +4,9 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <stdlib.h> //malloc
+
+#define MAX_USERS 100
 #define MAX_IDX (MAX_USERS-1)
 
 typedef struct reactor_core {

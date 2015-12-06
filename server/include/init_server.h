@@ -10,4 +10,4 @@
 
 #include "user_list.h"
 
-int init_server(int* s, int* e);
+int init_server(int* s, int* e, int port);
