@@ -9,6 +9,6 @@ typedef struct reactor {
 	reactor_core* rc;
 } reactor;
 
-reactor* create_reactor(int epoll_fd);
+reactor* create_reactor(int epoll_fd, const int max_clients);
 void destroy_reactor(reactor* r);
 

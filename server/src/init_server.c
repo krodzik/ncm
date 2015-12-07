@@ -1,8 +1,6 @@
 #include "init_server.h"
 
-#define MAX_USERS 100
-
-int init_server(int* s, int* e, int port)
+int init_server(int* s, int* e, const int port, const int max_clients)
 {
 	int srv_fd = -1;
 	int epoll_fd = -1;
@@ -33,7 +31,7 @@ int init_server(int* s, int* e, int port)
 		return 1;
 	}
 
-	epoll_fd = epoll_create(MAX_USERS + 1);
+	epoll_fd = epoll_create(max_clients + 1);
 	if (epoll_fd < 0) {
 		printf("Cannot create epoll\n");
 		close(srv_fd);

@@ -1,5 +1,4 @@
 #include "reactor.h"
-#include "user_list.h"
 #include <sys/epoll.h>
 #include <string.h>
 #include <unistd.h>
@@ -11,8 +10,10 @@
 
 typedef struct reactor_core {
 	int epoll_fd;
+    int max_clients;
 	size_t current_idx;
-	event_handler* ehs[MAX_IDX];
+	// TODO swap MAX_USERS with max_clients
+	event_handler* ehs[MAX_USERS-1];
 } reactor_core;
 
 static event_handler* find_eh(reactor_core* rc, int fd, size_t* idx)
@@ -71,11 +72,11 @@ static void event_loop(reactor* self)
 {
 	int i = 0;
 	int epoll_fd = self->rc->epoll_fd;
-	struct epoll_event es[MAX_USERS];
+	struct epoll_event es[self->rc->max_clients];
 	event_handler* eh = 0;
 
 	for(;;) {
-		i = epoll_wait(epoll_fd, es, MAX_USERS, -1);
+		i = epoll_wait(epoll_fd, es, self->rc->max_clients, -1);
 		for (--i; i > -1; --i) {
 			eh = find_eh(self->rc, es[i].data.fd, 0);
 			if (eh)
@@ -84,13 +85,14 @@ static void event_loop(reactor* self)
 	}
 }
 
-reactor* create_reactor(int epoll_fd)
+reactor* create_reactor(int epoll_fd, const int max_clients)
 {
 	reactor* r = malloc(sizeof(reactor));
 	r->rc = malloc(sizeof(reactor_core));
 	r->rc->ehs[0] = 0;
 
 	r->rc->epoll_fd = epoll_fd;
+	r->rc->max_clients = max_clients;
 	r->rc->current_idx = 0;
 	r->add_eh = &add_eh;
 	r->rm_eh = &rm_eh;

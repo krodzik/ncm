@@ -9,7 +9,6 @@
 //#include <errno.h>
 
 #include "read_config.h"
-#include "user_list.h"
 #include "reactor.h"
 #include "init_server.h"
 #include "acceptor_eh.h"
@@ -32,10 +31,10 @@ int main(int argc, const char *argv[])
 	reactor* r = 0;
 	event_handler* seh = 0;
 
-	if (init_server(&srv_fd, &epoll_fd, port) != 0)
+	if (init_server(&srv_fd, &epoll_fd, port, max_clients) != 0)
 		return 1;
 
-	r  = create_reactor(epoll_fd);
+	r  = create_reactor(epoll_fd, max_clients);
 	seh = create_acceptor(srv_fd, r);
 	r->add_eh(r, seh);
 

@@ -8,6 +8,4 @@
 #include <string.h> //memset
 #include <unistd.h> //close
 
-#include "user_list.h"
-
-int init_server(int* s, int* e, int port);
+int init_server(int* s, int* e, const int port, const int max_clients);
